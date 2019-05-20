@@ -1,4 +1,4 @@
-# equipment_repository_template
+# Plate reader
 
 This is a template repository. should be used as a guideline by people/groups developing equipment in this project
 
