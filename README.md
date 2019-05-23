@@ -15,6 +15,8 @@ Commercial plate readers are microplate readers that are obtained from commercia
 1.	Enzyme Linked Immunosorbent Assay (ELISA)
 2.	Nucleic acid quantification
 3.	High through put screening of compounds and targets in drug discovery
+4.  Antimicrobial Susceptibility Testing (AST)
+5.  Growth rates in batch-fed bioreactor fermentation procedure
 
 ## Reference links
 
