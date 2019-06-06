@@ -8,7 +8,7 @@ Plate readers or microplate readers (microplate photometers) enable multiple spe
 
 ## Commercial Plate Readers and Open Source Plate Readers
 
-Commercial plate readers are microplate readers that are obtained from commercial manufacturers. Usually, commercially manufactured plate readers are expensive to buy. However, open source plate readers are low-cost microplate readers built using open source software, cheap and available materials, microcomputers/microcontrollers, 3D printed parts and laser cut parts. Open source plate readers are very cheap to build but require expert knowledge and skills.
+Commercial plate readers are microplate readers that are obtained from commercial manufacturers. Usually, commercially manufactured plate readers are expensive to buy. However, open source plate readers are low-cost microplate readers built using open source software, cheap and available materials, microcomputers/micro-controllers, 3D printed parts and laser cut parts. Open source plate readers are very cheap to build but require expert knowledge and skills.
 
 ## Uses of Plate readers
 

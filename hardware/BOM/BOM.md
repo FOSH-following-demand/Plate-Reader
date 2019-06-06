@@ -20,7 +20,10 @@ We recommend creating different files:
 
 |part name| function  | quantity  |  obs.  |supplier|supplier number|link|
 |---|---|---|---|---|---|---|
-|M6x1 hex screws | used for holding motor in place  | 5  |  these could be substituted by flathead screws  |digikey| RPC6208-ND |https://www.digikey.co.uk/product-detail/en/essentra-components/SHSM6L16A/RPC6208-ND/9343049 |
+|20T GT2 Aluminium Alloy Timing Pulley with 8mm bore 7mm width | Used to drive spectrometer position| 6  |  | Bangood |  |https://www.banggood.com/10PcsPack-5mm8mm-20T-Aluminum-Alloy-Timing-Pulley-for-3D-Printer-DIY-Part-p-1407138.html?rmmds=myorder |
+|5M 2GT-6mm Rubber Opening Timing Belt S2M GT2 Belt For 3D Printer|Used to drive spectrometer position|1||Bangood||https://www.banggood.com/5M-2GT-6mm-Rubber-Opening-Timing-Belt-S2M-GT2-Belt-For-3D-Printer-p-959254.html?rmmds=myorder&cur_warehouse=CN|
+|10PCS GT2 Timing Belt Loop Rubber 6mm Width 2mm Pitch 150-2GT|Used to drive spectrometer position|1||Bangood||https://www.banggood.com/10PCS-GT2-Timing-Belt-Loop-Rubber-6mm-Width-2mm-Pitch-150-2GT-p-1210801.html?rmmds=myorder&cur_warehouse=CN|
+|20T 5mm GT2 Timing Belt Idler Pulley With Bearing For 3D Printer|Used to drive spectrometer position|2||Bangood||https://www.banggood.com/20T-5mm-GT2-Timing-Belt-Idler-Pulley-With-Bearing-For-3D-Printer-p-1044832.html?rmmds=myorder&cur_warehouse=CN|
 
 <br>
 
