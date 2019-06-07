@@ -24,7 +24,10 @@ We recommend creating different files:
 |5M 2GT-6mm Rubber Opening Timing Belt S2M GT2 Belt For 3D Printer|Used to drive spectrometer position|1||Bangood||https://www.banggood.com/5M-2GT-6mm-Rubber-Opening-Timing-Belt-S2M-GT2-Belt-For-3D-Printer-p-959254.html?rmmds=myorder&cur_warehouse=CN|
 |10PCS GT2 Timing Belt Loop Rubber 6mm Width 2mm Pitch 150-2GT|Used to drive spectrometer position|1||Bangood||https://www.banggood.com/10PCS-GT2-Timing-Belt-Loop-Rubber-6mm-Width-2mm-Pitch-150-2GT-p-1210801.html?rmmds=myorder&cur_warehouse=CN|
 |20T 5mm GT2 Timing Belt Idler Pulley With Bearing For 3D Printer|Used to drive spectrometer position|2||Bangood||https://www.banggood.com/20T-5mm-GT2-Timing-Belt-Idler-Pulley-With-Bearing-For-3D-Printer-p-1044832.html?rmmds=myorder&cur_warehouse=CN|
-
+|Linear Motion Shaft|Used to drive spectrometer position|4||McMaster-Carr|6112K45|https://www.mcmaster.com/linear-motion-shafts|
+|Corrosion-Resistant Rotary Shaft|Used to drive spectrometer position|1||McMaster-Carr|1265K66|https://www.mcmaster.com/rotary-shafts|
+|Linear Mounted Ball Bearing with 6061 Aluminium Housing|Used to support spectrometer of linear shafts|2||McMaster-Carr|9338T51|https://www.mcmaster.com/linear-bearings|
+|Linear Ball Bearing||2||McMaster-Carr|61205K75|https://www.mcmaster.com/linear-bearings|
 <br>
 
 - Tools_BOM.csv: table containing all tools used for the build. Pliers, hammer, etc.
