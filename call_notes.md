@@ -1,6 +1,23 @@
-### Call notes
+## Call notes
 
-Call on 04/06/2019
+### Call on 11/06/2019
+
+Making good progress, some things are stuck in Customs
+
+mechanical:
+aluminium profiles could not be shipped to Ghana. They found a new supplier (Adafruit).
+
+Finishing mechanical design
+Gui interface for the coming week
+electronics bits are stuck in customs. But should be released this week so that they can start working  on the central part of the project.
+
+For the coming week:
+add STEP files to the mechanical design files,
+update GUI
+start releasing code.
+
+
+### Call on 04/06/2019
 Note taker: Andre 
 
 - funds only arrived friday prior to call. 
