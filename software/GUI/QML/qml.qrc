@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Well.qml</file>
+        <file>controls/Button.qml</file>
+        <file>controls/Loader.qml</file>
+        <file>controls/Text.qml</file>
+        <file>controls/Variables.qml</file>
+        <file>FontAwesome.qml</file>
+        <file>main.cpp</file>
+        <file>fontawesome-webfont.ttf</file>
+    </qresource>
+</RCC>
