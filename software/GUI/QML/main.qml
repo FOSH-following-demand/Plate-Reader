@@ -30,6 +30,27 @@ Window {
             width: parent.width
             height: 67
             color: "#ffffff"
+            state: "stopped"
+            states: [
+                State {
+                    name: "running"
+                    PropertyChanges { target: playButton; enabled: false }
+                    PropertyChanges { target: pauseButton; enabled: true }
+                    PropertyChanges { target: stopButton; enabled: true }
+                },
+                State {
+                    name: "paused"
+                    PropertyChanges { target: playButton; enabled: true }
+                    PropertyChanges { target: pauseButton; enabled: false }
+                    PropertyChanges { target: stopButton; enabled: true }
+                },
+                State {
+                    name: "stopped"
+                    PropertyChanges { target: playButton; enabled: true }
+                    PropertyChanges { target: pauseButton; enabled: false }
+                    PropertyChanges { target: stopButton; enabled: false }
+                }
+            ]
             
             RowLayout {
                 width: parent.width
@@ -74,6 +95,29 @@ Window {
                     Layout.rightMargin: 20
                     onClicked: () => {
                         window.playClicked()
+                        console.log(header.state)
+                        if (header.state !== "running") {
+                            console.log("Something weird is happening...")
+                            header.state = "running"
+                        }
+                        console.log(header.state)
+                    }
+                }
+
+                ToolButton {
+                    id: pauseButton
+                    width: 37
+                    height: 37
+                    icon.source: "icons/baseline-pause-24px.svg"
+                    text: "play"
+                    display: AbstractButton.IconOnly
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.rightMargin: 20
+                    onClicked: () => {
+                        window.pauseClicked()
+                        if (header.state !== "paused") {
+                            header.state = "paused"
+                        }
                     }
                 }
 
@@ -88,6 +132,9 @@ Window {
                     Layout.rightMargin: 20
                     onClicked: () => {
                         window.stopClicked()
+                        if (header.state !== "stopped") {
+                            header.state = "stopped"
+                        }
                     }
                 }
             }
@@ -306,7 +353,7 @@ Window {
                                 Layout.fillWidth: true
                                 value: "0.0"
                                 onClicked: (e) => {
-                                    console.log(e)
+                                    window.wellSelected(e)
                                 }
                             }
                         }

@@ -6,6 +6,7 @@ from PySide2.QtQml import QQmlApplicationEngine
 
 
 class GUI(QObject):
+    _selectedWells = []
     def __init__(self, engine, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
@@ -15,6 +16,7 @@ class GUI(QObject):
         self.window.pauseClicked.connect(self.pause)
         self.window.playClicked.connect(self.play)
         self.window.stopClicked.connect(self.stop)
+        self.window.wellSelected.connect(self.wellSelected)
 
     @Slot()
     def openClose(self):
@@ -36,6 +38,14 @@ class GUI(QObject):
     def stop(self):
         print("stop called")
 
+    @Slot(str)
+    def wellSelected(self, name):
+        if not name in self._selectedWells:
+            self._selectedWells.append(name)
+        else:
+            self._selectedWells.remove(name)
+        self._selectedWells.sort()
+        print(self._selectedWells)
 
 def main():
     app = QGuiApplication(sys.argv)
