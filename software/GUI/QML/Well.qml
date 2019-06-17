@@ -6,8 +6,8 @@ Item {
     id: root
     property alias value: value.text
     property alias color: well.color
-    property string name: ""
-    // signal onClicked(string name)
+    property int identifier
+    signal clicked(string name)
     state: "notSelected"
 
     states: [
@@ -46,9 +46,11 @@ Item {
                 id: mouseArea
                 anchors.fill: parent
                 onClicked: (e) => {
-                               root.state = (root.state == "notSelected" ? "selected" : "notSelected")
-                            //    root.onClicked()
-                           }
+                    var labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+                    root.state = (root.state == "notSelected" ? "selected" : "notSelected")
+                    var name = labels[Math.floor(identifier/12)] + ((identifier % 12)+1)
+                    root.clicked(name)
+                }
             }
         }
 

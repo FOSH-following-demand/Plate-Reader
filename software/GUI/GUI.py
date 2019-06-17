@@ -6,16 +6,8 @@ from PySide2.QtQml import QQmlApplicationEngine
 
 
 class GUI(QObject):
-    def __init__(self, url, *args, **kwargs):
+    def __init__(self, engine, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
-        engine = QQmlApplicationEngine()
-        context = engine.rootContext()
-        engine.load(url)
-
-        if not engine.rootObjects():
-            print("Something happend")
-            sys.exit(-1)
         
         self.window = engine.rootObjects()[0]
         self.window.runClicked.connect(self.run)
@@ -48,7 +40,20 @@ class GUI(QObject):
 def main():
     app = QGuiApplication(sys.argv)
     url = QUrl("./QML/main.qml")
+    
+    engine = QQmlApplicationEngine()
+    engine.load(url)
+    
+    context = engine.rootContext()
 
-    gui = GUI(url)
+    if not engine.rootObjects():
+        sys.exit(-1)
+    
+    gui = GUI(engine)
 
     app.exec_()
+
+
+if __name__ == '__main__':
+    sys.argv += ['--style', 'fusion']
+    main()
