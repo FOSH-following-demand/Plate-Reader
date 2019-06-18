@@ -1,7 +1,7 @@
-References,Qty,Description,Manufacturer,MPN,Digikey,Mouser
-U1,1,Arduino based microcontroller,Sparkfun,,,
-U2,1,Spectral sensor breakout,Sparkfun,,,
-U3,1,Qwiic shield for arduino,Sparkfun,,,
-M1,2,Small stepper motor,Sparkfun,,,
-M2,1,Nema 17 stepper motor,,NEMA17-19-07SD-AMT112S ,102-4714-ND,
-MX,1,8x8 RGB LED matrix,Sparkfun,,,
+References,Qty,Description,Manufacturer,MPN,Digikey,Mouser,Links
+U1,1,Arduino based microcontroller,Sparkfun,,,,https://www.sparkfun.com/products/13975
+U2,1,Spectral sensor breakout,Sparkfun,,,,https://www.sparkfun.com/products/14347
+U3,1,Qwiic shield for arduino,Sparkfun,,,,https://www.sparkfun.com/products/14352?_ga=2.148498487.1681531341.1559216407-1185170934.1559216407
+M1,2,Small stepper motor,Sparkfun,,,,https://www.sparkfun.com/products/10551
+M2,1,Nema 17 stepper motor,,NEMA17-19-07SD-AMT112S ,102-4714-ND,,Local Hardware
+MX,1,8x8 RGB LED matrix,Sparkfun,,,,https://www.sparkfun.com/products/12662
