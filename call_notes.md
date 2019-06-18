@@ -1,5 +1,22 @@
 ## Call notes
 
+### Call on 18/06/2019
+
+Parts didn't arrive yet, but worked on GUI in the meantime. 
+
+QML is being used to develop the GUI (part of the QT package)
+
+Working as well on the Arduino code.
+
+Aurora is a new member on the team, with a biology background, she has been taking care of documentation and
+indicating applicability side of things.
+
+
+
+
+
+
+
 ### Call on 11/06/2019
 
 Making good progress, some things are stuck in Customs
