@@ -1,15 +1,16 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
-import QtQuick.Controls.Universal 2.12
 import QtQuick.Layouts 1.12
+import QtGraphicalEffects 1.12
+import QtQuick.Dialogs 1.3
 
 
 Window {
     id: window
     visible: true
-    width: 640
-    height: 480
+    width: 1366
+    height: 768
     color: "#e4e4e4"
     title: qsTr("Plate Reader")
     visibility: "Maximized"
@@ -22,7 +23,17 @@ Window {
     signal stopClicked()
     signal wellSelected(string name)
 
-    Column {
+    FileDialog {
+        id: exportDialog
+        title: "Please choose a file"
+        folder: shortcuts.documents
+        nameFilters: ["Excel (*.xlsx)", ""]
+        onAccepted: {
+            console.log(exportDialog.fileUrl)
+        }
+    }
+
+    ColumnLayout {
         anchors.fill: parent
 
         Rectangle {
@@ -30,6 +41,8 @@ Window {
             width: parent.width
             height: 67
             color: "#ffffff"
+            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+            Layout.fillWidth: true
             state: "stopped"
             states: [
                 State {
@@ -37,21 +50,24 @@ Window {
                     PropertyChanges { target: playButton; enabled: false }
                     PropertyChanges { target: pauseButton; enabled: true }
                     PropertyChanges { target: stopButton; enabled: true }
+                    PropertyChanges { target: openCloseButton; enabled: false }
                 },
                 State {
                     name: "paused"
                     PropertyChanges { target: playButton; enabled: true }
                     PropertyChanges { target: pauseButton; enabled: false }
                     PropertyChanges { target: stopButton; enabled: true }
+                    PropertyChanges { target: openCloseButton; enabled: false }
                 },
                 State {
                     name: "stopped"
                     PropertyChanges { target: playButton; enabled: true }
                     PropertyChanges { target: pauseButton; enabled: false }
                     PropertyChanges { target: stopButton; enabled: false }
+                    PropertyChanges { target: openCloseButton; enabled: true }
                 }
             ]
-            
+
             RowLayout {
                 width: parent.width
                 height: parent.height
@@ -67,6 +83,7 @@ Window {
                     Layout.leftMargin: 19
                     onClicked: () => {
                         menuClicked()
+                        sidePanel.state = sidePanel.state === "collapsed" ? "expanded" : "collapsed"
                     }
                 }
 
@@ -77,7 +94,7 @@ Window {
                     font.family: "Segoe UI"
                     font.pixelSize: 25
                     Layout.alignment: Qt.AlignVCenter
-                    Layout.leftMargin: 20 
+                    Layout.leftMargin: 20
                 }
 
                 Item {
@@ -94,14 +111,11 @@ Window {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.rightMargin: 20
                     onClicked: () => {
-                        window.playClicked()
-                        console.log(header.state)
-                        if (header.state !== "running") {
-                            console.log("Something weird is happening...")
-                            header.state = "running"
-                        }
-                        console.log(header.state)
-                    }
+                                   window.playClicked()
+                                   if (header.state !== "running") {
+                                       header.state = "running"
+                                   }
+                               }
                 }
 
                 ToolButton {
@@ -114,11 +128,11 @@ Window {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.rightMargin: 20
                     onClicked: () => {
-                        window.pauseClicked()
-                        if (header.state !== "paused") {
-                            header.state = "paused"
-                        }
-                    }
+                                   window.pauseClicked()
+                                   if (header.state !== "paused") {
+                                       header.state = "paused"
+                                   }
+                               }
                 }
 
                 ToolButton {
@@ -131,20 +145,106 @@ Window {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.rightMargin: 20
                     onClicked: () => {
-                        window.stopClicked()
-                        if (header.state !== "stopped") {
-                            header.state = "stopped"
-                        }
-                    }
+                                   window.stopClicked()
+                                   if (header.state !== "stopped") {
+                                       header.state = "stopped"
+                                   }
+                               }
                 }
             }
         }
 
-        Row {
+        RowLayout {
             x: 0
             y: 67
             width: window.width
             height: window.height - 67
+
+            Rectangle {
+                id: sidePanel
+                color: "#ffffff"
+                Layout.fillHeight: true
+                z: 500
+                layer.enabled: true
+                layer.effect: DropShadow {
+                    horizontalOffset: 1
+                    verticalOffset: 1
+                    radius: 8.0
+                    samples: 17
+                    color: "#80000000"
+                    source: sidePanel
+                    smooth: true
+                    width: sidePanel.width
+                    height: sidePanel.height
+                }
+
+                Behavior on width {
+                    NumberAnimation { duration: 200 }
+                }
+
+                state: "collapsed"
+
+                states: [
+                    State {
+                        name: "expanded"
+                        PropertyChanges {
+                            target: sidePanel
+                            width: 200
+                        }
+                        PropertyChanges {
+                            target: saveButton
+                            display: AbstractButton.TextBesideIcon
+                        }
+                        PropertyChanges {
+                            target: exportButton
+                            display: AbstractButton.TextBesideIcon
+                        }
+                    },
+                    State {
+                        name: "collapsed"
+                        PropertyChanges {
+                            target: sidePanel
+                            width: 70
+                        }
+                        PropertyChanges {
+                            target: saveButton
+                            display: AbstractButton.IconOnly
+                        }
+                        PropertyChanges {
+                            target: exportButton
+                            display: AbstractButton.IconOnly
+                        }
+                    }
+                ]
+
+                ColumnLayout {
+                    id: columnLayout
+                    spacing: 10
+                    width: parent.width
+
+                    ToolButton {
+                        id: exportButton
+                        text: qsTr("Export Data")
+//                        display: AbstractButton.IconOnly
+                        Layout.topMargin: 10
+                        Layout.leftMargin: 10
+                        Layout.rightMargin: 10
+                        Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                        Layout.fillWidth: true
+                        icon.source: "icons/baseline-import_export-24px.svg"
+                        onClicked: exportDialog.open()
+                    }
+
+                    ToolButton {
+                        id: saveButton
+                        text: qsTr("Save")
+                        Layout.leftMargin: 10
+                        Layout.rightMargin: 10
+                        Layout.fillWidth: true
+                        icon.source: "icons/baseline-save-24px.svg"
+                    }
+                }
+            }
 
             Rectangle {
                 id: sideBar
@@ -152,8 +252,8 @@ Window {
                 width: 300
                 height: window.height - 73
                 color: "#ffffff"
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 0
+                Layout.fillHeight: true
+                Layout.fillWidth: false
 
                 Text {
                     id: openCloseText
@@ -164,7 +264,7 @@ Window {
                 }
 
                 Button {
-                    id: openButton
+                    id: openCloseButton
                     x: 23
                     y: 64
                     width: 120
@@ -175,17 +275,17 @@ Window {
                     states: [
                         State {
                             name: "open"
-                            PropertyChanges { target: openButton; text: "Open"}
+                            PropertyChanges { target: openCloseButton; text: "Open"}
                             PropertyChanges { target: openCloseText; text: "Plate Reader is closed"}
                         },
                         State {
                             name: "close"
-                            PropertyChanges { target: openButton; text: "Close"}
+                            PropertyChanges { target: openCloseButton; text: "Close"}
                             PropertyChanges { target: openCloseText; text: "Plate Reader is opened"}
                         }
                     ]
                     contentItem: Text {
-                        id: openCloseButton
+//                        id: openCloseButton
                         text: parent.text
                         font: parent.font
                         horizontalAlignment: Text.AlignHCenter
@@ -195,9 +295,9 @@ Window {
                     }
 
                     onClicked: () => {
-                        openCloseClicked()
-                        state = state === "open"? "close": "open"
-                    }
+                                   openCloseClicked()
+                                   state = state === "open"? "close": "open"
+                               }
                 }
 
                 Text {
@@ -274,6 +374,8 @@ Window {
                 y: 13
                 width: parent.width - sideBar.width
                 height: window.height - 73
+                Layout.fillHeight: true
+                Layout.fillWidth: true
 
                 GridLayout {
                     id: grid
@@ -348,18 +450,20 @@ Window {
                         Repeater {
                             model: 96
                             Well {
+                                id: well
                                 identifier: index
                                 Layout.fillHeight: true
                                 Layout.fillWidth: true
                                 value: "0.0"
                                 onClicked: (e) => {
-                                    window.wellSelected(e)
-                                }
+                                               window.wellSelected(e)
+                                           }
                             }
                         }
                     }
                 }
             }
+
         }
     }
 }

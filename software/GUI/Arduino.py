@@ -39,13 +39,9 @@ class Arduino(object):
             raise IOError("No ser found")
         else:
             self.ser = serial.Serial(ser_ports[0], 9600)
-        if len(ser_ports) > 1:
-            warnings.warn('Multiple sers found - using the first')
-        if self.ser is None:
-            print('Device not found')
 
     def write(self, string):
-        self.ser.write(string)
+        self.ser.write(bytes(string))
 
     def read(self):
         signal = self.ser.readline()

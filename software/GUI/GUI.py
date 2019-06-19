@@ -3,13 +3,13 @@ import sys
 from PySide2.QtCore import QObject, QUrl, Slot
 from PySide2.QtGui import QGuiApplication
 from PySide2.QtQml import QQmlApplicationEngine
+from Arduino import Arduino
 
 
 class GUI(QObject):
     _selectedWells = []
     def __init__(self, engine, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
         self.window = engine.rootObjects()[0]
         self.window.runClicked.connect(self.run)
         self.window.openCloseClicked.connect(self.openClose)
