@@ -1,5 +1,11 @@
 ## Call notes
 
+### Call on 25/06/2019
+
+Parts are in customs. the team is sourcing funds to release them. Andre is going to check with Mozilla what can be done.
+
+
+
 ### Call on 18/06/2019
 
 Parts didn't arrive yet, but worked on GUI in the meantime. 
