@@ -1,5 +1,7 @@
 # Plate reader
 
+![Plate Reader Image](documentation/building/Plate%20Reader.jpg)
+
 ## Background
 
 Colorimetric or spectrophotometric assays are light dependent analysis that uses light of a particular wavelength to excite molecules within a coloured sample to determine the absorbance of the sample in other to extrapolate the concentration of the sample. This technique is important in determining the concentration of a sample or assay in clinical chemistry or microbiology or experimental biology.
