@@ -1,10 +1,10 @@
 # Code of Conduct
 
-The project on building an open source plate reader is part of the Building Free and Open Science Hardware (BFOSH) project awarded to Andre Chagas by the Mozilla and Wikimedia foundation. The team in Ghana is one of the 11 teams globally to work on the BFOSH project and is tasked to contribute to the project by building the open source plate reader. Below are the code of conduct binding the team and other person who will join the project as a contributor hence becoming a team member.
+The project on building an open source plate reader is part of the Building Free and Open Science Hardware (BFOSH) project awarded to Andre Chagas by the Mozilla and Wikimedia Germany foundation. The team in Ghana at Kumasi Hive is one of the 11 teams globally to work on the BFOSH project and is tasked to contribute to the project by building an open source plate reader. Below are the codes of conduct binding the team and any other person who will join the project as a contributor hence becoming a team member.
 
 ## Tolerance
 
-The above project is an open source one therefore, will require people from different backgrounds and skill sets contributing to the success of the project. The need for tolerance CANNOT be underestimated because team members and other contributors on the project will proffer ideas hence the need for every team member and contributor to be TOLERANT to the submissions of other. However, if there is an OBJECTION to a submission/idea, it should be done CONSTRUCTIVELY (constructive criticism) and reasons stated in CLEAR, SIMPLE and UNDERSTANDABLE language.
+The above project is an open source one therefore, will require people from different backgrounds and skill sets contributing to the success of the project. The need for tolerance CANNOT be underestimated because team members and other contributors on the project will proffer ideas hence the need for every team member and contributor to be TOLERANT to the submissions of others. However, if there is an OBJECTION to a submission/idea, it should be done CONSTRUCTIVELY (constructive criticism) and reasons stated in CLEAR, SIMPLE and UNDERSTANDABLE language.
 
 ## Respect for Time
 
@@ -15,7 +15,7 @@ Time is an important factor in achieving success and also meeting deadlines. The
 
 ### Team/contributors meetings/Impromptu meetings
 
-Notice of team/contributors’ meetings with an agenda are expected to be sent to all members 4 days to the meeting and for an impromptu meetings notices and agenda are expected to be sent 2 days prior to the said meeting.
+Notice of team/contributors’ meetings with an agenda are expected to be sent to all members 4 days to the meeting and for an impromptu meetings, notices and agenda are expected to be sent 2 days prior to the said meeting.
 
 ### Completing of Tasks and Meeting Deadlines
 
