@@ -25,9 +25,14 @@ Window {
 
     FileDialog {
         id: exportDialog
-        title: "Please choose a file"
+        title: "Export to file"
         folder: shortcuts.documents
-        nameFilters: ["Excel (*.xlsx)", ""]
+        nameFilters: [
+            "Excel (*.xlsx)",
+            "CSV (*.csv)",
+            "All Files (*.*)"
+        ]
+        selectExisting: false
         onAccepted: {
             console.log(exportDialog.fileUrl)
         }
@@ -225,7 +230,6 @@ Window {
                     ToolButton {
                         id: exportButton
                         text: qsTr("Export Data")
-//                        display: AbstractButton.IconOnly
                         Layout.topMargin: 10
                         Layout.leftMargin: 10
                         Layout.rightMargin: 10
@@ -285,7 +289,6 @@ Window {
                         }
                     ]
                     contentItem: Text {
-//                        id: openCloseButton
                         text: parent.text
                         font: parent.font
                         horizontalAlignment: Text.AlignHCenter
@@ -338,9 +341,9 @@ Window {
                     }
 
                     RadioButton {
-                        id: microbioticsQuantification
+                        id: antibioticsQuantification
                         width: 240
-                        text: qsTr("Microbiotics Quantification")
+                        text: qsTr("Antibiotics Quantification")
                         spacing: 10
                         padding: 6
                         topPadding: 17
