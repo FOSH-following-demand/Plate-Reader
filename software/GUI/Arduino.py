@@ -2,7 +2,6 @@
 Detect connection to arduino
 '''
 
-import time
 import warnings
 import serial
 import serial.tools.list_ports
@@ -38,14 +37,14 @@ class Arduino(object):
         if not ser_ports:
             raise IOError("No ser found")
         else:
-            self.ser = serial.Serial(ser_ports[0], 9600)
+            self.ser = serial.Serial(ser_ports[0], 9600, timeout=0)
 
     def write(self, string):
-        self.ser.write(bytes(string))
+        self.ser.write(bytes(string, 'utf-8'))
 
     def read(self):
         signal = self.ser.readline()
-        return signal
+        return str(signal, 'utf-8')
 
     def close(self):
         self.ser.close()

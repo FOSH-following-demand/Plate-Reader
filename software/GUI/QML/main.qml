@@ -15,13 +15,11 @@ Window {
     title: qsTr("Plate Reader")
     visibility: "Maximized"
 
-    signal runClicked()
-    signal openCloseClicked()
-    signal menuClicked()
-    signal playClicked()
-    signal pauseClicked()
-    signal stopClicked()
-    signal wellSelected(string name)
+    Component.onCompleted: () => {
+        // ui.result.connect((e) => {
+        //     console.log('QML', e)
+        // })
+    }
 
     FileDialog {
         id: exportDialog
@@ -116,7 +114,7 @@ Window {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.rightMargin: 20
                     onClicked: () => {
-                                   window.playClicked()
+                                   ui.play()
                                    if (header.state !== "running") {
                                        header.state = "running"
                                    }
@@ -133,7 +131,7 @@ Window {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.rightMargin: 20
                     onClicked: () => {
-                                   window.pauseClicked()
+                                   ui.pause()
                                    if (header.state !== "paused") {
                                        header.state = "paused"
                                    }
@@ -150,7 +148,7 @@ Window {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.rightMargin: 20
                     onClicked: () => {
-                                   window.stopClicked()
+                                   ui.stop()
                                    if (header.state !== "stopped") {
                                        header.state = "stopped"
                                    }
@@ -298,7 +296,7 @@ Window {
                     }
 
                     onClicked: () => {
-                                   openCloseClicked()
+                                   ui.open_close()
                                    state = state === "open"? "close": "open"
                                }
                 }
@@ -369,7 +367,7 @@ Window {
                     font.pointSize: 14
                     font.family: "Segoe UI"
 
-                    onClicked: runClicked()
+                    onClicked: ui.run()
                 }
             }
 
@@ -451,6 +449,7 @@ Window {
                         rowSpacing: 0
 
                         Repeater {
+                            id: wells
                             model: 96
                             Well {
                                 id: well
@@ -459,9 +458,18 @@ Window {
                                 Layout.fillWidth: true
                                 value: "0.0"
                                 onClicked: (e) => {
-                                               window.wellSelected(e)
-                                           }
+                                    ui.well_selected(e)
+                                }
                             }
+                            Component.onCompleted: ui.result.connect(
+                                    (result) => {
+                                        var identifier = result.identifier
+                                        var num = parseInt(identifier.slice(1, identifier.length))
+                                        var letter = identifier.slice(0,1).charCodeAt(0) - 'A'.charCodeAt(0)
+                                        var idx = (12 * letter) + num - 1
+                                        wells.itemAt(idx).value = result.result.toString()
+                                    }
+                                )
                         }
                     }
                 }

@@ -1,34 +1,65 @@
 import sys
 
-from PySide2.QtCore import QObject, QUrl, Slot
+from PySide2.QtCore import QObject, QUrl, Slot, Signal
 from PySide2.QtGui import QGuiApplication
 from PySide2.QtQml import QQmlApplicationEngine
-from Arduino import Arduino
+
+from machine import Machine
 
 
 class GUI(QObject):
-    _selectedWells = []
-    def __init__(self, engine, *args, **kwargs):
+    result = Signal('QVariant')
+    running = Signal(str)
+
+    xd = 9.0  # well x spacing
+    yd = 9.0  # well y spacing
+    x0 = 0.0  # x position of first well
+    y0 = 0.0  # y position of first well
+
+    def __init__(self, *args, **kwargs):
+        self._open = False
+        self._running = False
         super().__init__(*args, **kwargs)
-        self.window = engine.rootObjects()[0]
-        self.window.runClicked.connect(self.run)
-        self.window.openCloseClicked.connect(self.openClose)
-        self.window.pauseClicked.connect(self.pause)
-        self.window.playClicked.connect(self.play)
-        self.window.stopClicked.connect(self.stop)
-        self.window.wellSelected.connect(self.wellSelected)
+        self.machine = Machine()
+        self._selectedWells = []
 
     @Slot()
-    def openClose(self):
-        print("Open/Close called")
+    def open_close(self):
+        print('open_close clicked')
+        if self.open:
+            self.machine.open_plate('close')
+        else:
+            self.machine.open_plate('open')
 
     @Slot()
     def run(self):
-        print("Run called")
+        self._running = True
+        self.running.emit('running')
+        for well in self._selectedWells:
+            well_position = self.calculate_well_position(well)
+            self.machine.move_sensor(*well_position)
+            scan_result = self.machine.scan_well()
+            self.result.emit({'identifier': well, 'result': scan_result})
+        self._running = False
+        self.running.emit('stopped')
+
+    def calculate_well_position(self, well):
+        '''
+        Calculates well position from well identification string
+
+        :param well: well identification string in the regex format ^[A-H][0-9]{1,2}$ eg A12
+        :return: tuple of floats representing the x and y coordinates of the well
+        '''
+        well_char = well[0]
+        well_num = int(well[1:])
+        x = self.x0 + (ord(well_char) - ord('A')) * self.xd
+        y = self.y0 + (well_num - 1) * self.yd
+        return x, y
 
     @Slot()
     def pause(self):
         print("Pause clicked")
+        self.running.emit('paused')
 
     @Slot()
     def play(self):
@@ -36,30 +67,33 @@ class GUI(QObject):
 
     @Slot()
     def stop(self):
+        self.running.emit('stopped')
         print("stop called")
 
     @Slot(str)
-    def wellSelected(self, name):
-        if not name in self._selectedWells:
+    def well_selected(self, name):
+        if name not in self._selectedWells:
             self._selectedWells.append(name)
         else:
             self._selectedWells.remove(name)
         self._selectedWells.sort()
-        print(self._selectedWells)
+
 
 def main():
     app = QGuiApplication(sys.argv)
     url = QUrl("./QML/main.qml")
-    
+
     engine = QQmlApplicationEngine()
-    engine.load(url)
-    
+
+    gui = GUI(engine)
+
     context = engine.rootContext()
+    context.setContextProperty("ui", gui)
+
+    engine.load(url)
 
     if not engine.rootObjects():
         sys.exit(-1)
-    
-    gui = GUI(engine)
 
     app.exec_()
 
