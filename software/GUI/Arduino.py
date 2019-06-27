@@ -41,10 +41,10 @@ class Arduino(object):
             self.ser = serial.Serial(ser_ports[0], 9600)
 
     def write(self, string):
-        self.ser.write(bytes(string))
+        self.ser.write(string.encode())
 
     def read(self):
-        signal = self.ser.readline()
+        signal = self.ser.readline().decode()
         return signal
 
     def close(self):
