@@ -1,6 +1,6 @@
-import time
-from Arduino import Arduino
 from PySide2.QtCore import QCoreApplication
+
+from Arduino import Arduino
 
 
 class Machine(object):
@@ -11,7 +11,7 @@ class Machine(object):
         '''
         Open/Close plate reader. Only one axis possible
         '''
-        cmd = 'OP' if state=='open' else 'CP'  # OP to open plate reader. CP to close plate reader
+        cmd = 'OP' if state == 'open' else 'CP'  # OP to open plate reader. CP to close plate reader
         self.arduino.write(cmd)
         res = ''
         current = ''
@@ -38,7 +38,7 @@ class Machine(object):
             feedback string. "Done" represents completion without any errors.
         '''
         cmd = 'MS'
-        cmd += f"{x_position}, {y_position}"
+        cmd += f'{x_position}, {y_position}'
         self.arduino.write(cmd)
         res = ''
         current = ''
@@ -70,12 +70,12 @@ class Machine(object):
         '''
         return self.arduino.close()
 
-    def set_rgb(self, value):
+    def set_rgb(self, red, green, blue):
         '''
         Set rgb color value
         '''
         cmd = 'SR'
-        cmd += b'{value}'
+        cmd += f'{red},{green},{blue}'
         self.arduino.write(cmd)
         res = ''
         current = ''

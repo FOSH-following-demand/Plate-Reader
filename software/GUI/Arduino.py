@@ -40,11 +40,11 @@ class Arduino(object):
             self.ser = serial.Serial(ser_ports[0], 9600, timeout=0)
 
     def write(self, string):
-        self.ser.write(bytes(string, 'utf-8'))
+        self.ser.write(string.encode())
 
     def read(self):
-        signal = self.ser.readline()
-        return str(signal, 'utf-8')
+        signal = self.ser.readline().decode()
+        return signal
 
     def close(self):
         self.ser.close()

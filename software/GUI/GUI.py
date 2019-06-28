@@ -10,6 +10,7 @@ from machine import Machine
 class GUI(QObject):
     result = Signal('QVariant')
     running = Signal(str)
+    open = Signal(bool)
 
     xd = 9.0  # well x spacing
     yd = 9.0  # well y spacing
@@ -25,23 +26,28 @@ class GUI(QObject):
 
     @Slot()
     def open_close(self):
-        print('open_close clicked')
-        if self.open:
+        if self._open:
             self.machine.open_plate('close')
+            self._open = False
+            self.open.emit(False)
         else:
             self.machine.open_plate('open')
+            self._open = True
+            self.open.emit(True)
 
     @Slot()
     def run(self):
         self._running = True
         self.running.emit('running')
-        for well in self._selectedWells:
-            well_position = self.calculate_well_position(well)
-            self.machine.move_sensor(*well_position)
-            scan_result = self.machine.scan_well()
-            self.result.emit({'identifier': well, 'result': scan_result})
-        self._running = False
-        self.running.emit('stopped')
+        while self._running:
+            for well in self._selectedWells:
+                well_position = self.calculate_well_position(well)
+                self.machine.move_sensor(*well_position)
+                scan_result = self.machine.scan_well()
+                # scan_result = 4.2
+                self.result.emit({'identifier': well, 'result': scan_result})
+            self._running = False
+            self.running.emit('stopped')
 
     def calculate_well_position(self, well):
         '''
@@ -59,10 +65,13 @@ class GUI(QObject):
     @Slot()
     def pause(self):
         print("Pause clicked")
+        self._running = False
         self.running.emit('paused')
 
     @Slot()
     def play(self):
+        self._running = True
+        self.running.emit('running')
         print("play called")
 
     @Slot()
