@@ -14,11 +14,18 @@ Window {
     color: "#e4e4e4"
     title: qsTr("Plate Reader")
     visibility: "Maximized"
+    onClosing:  {
+        close.accepted = false
+        onTriggered: messageDialogQuit.open()
+    }
 
-    Component.onCompleted: () => {
-        // ui.result.connect((e) => {
-        //     console.log('QML', e)
-        // })
+    MessageDialog {
+        id: messageDialogQuit
+        title: qsTr("Close?")
+        icon: StandardIcon.Question
+        text: qsTr("Do you want to quit?.")
+        standardButtons: StandardButton.Yes |StandardButton.No
+        onYes: Qt.quit()
     }
 
     FileDialog {
@@ -46,6 +53,9 @@ Window {
             color: "#ffffff"
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop
             Layout.fillWidth: true
+            Component.onCompleted: ui.running.connect((running_state) => {
+                state = running_state
+            })
             state: "stopped"
             states: [
                 State {
@@ -54,6 +64,7 @@ Window {
                     PropertyChanges { target: pauseButton; enabled: true }
                     PropertyChanges { target: stopButton; enabled: true }
                     PropertyChanges { target: openCloseButton; enabled: false }
+                    PropertyChanges { target: runButton; enabled: false }
                 },
                 State {
                     name: "paused"
@@ -61,6 +72,7 @@ Window {
                     PropertyChanges { target: pauseButton; enabled: false }
                     PropertyChanges { target: stopButton; enabled: true }
                     PropertyChanges { target: openCloseButton; enabled: false }
+                    PropertyChanges { target: runButton; enabled: false }
                 },
                 State {
                     name: "stopped"
@@ -68,6 +80,7 @@ Window {
                     PropertyChanges { target: pauseButton; enabled: false }
                     PropertyChanges { target: stopButton; enabled: false }
                     PropertyChanges { target: openCloseButton; enabled: true }
+                    PropertyChanges { target: runButton; enabled: true }
                 }
             ]
 
@@ -85,7 +98,6 @@ Window {
                     icon.source: "icons/baseline-menu-24px.svg"
                     Layout.leftMargin: 19
                     onClicked: () => {
-                        menuClicked()
                         sidePanel.state = sidePanel.state === "collapsed" ? "expanded" : "collapsed"
                     }
                 }
@@ -273,6 +285,10 @@ Window {
                     height: 32
                     font.pointSize: 14
                     font.family: "Segoe UI"
+                    Component.onCompleted: ui.open.connect((value) => {
+                        console.log(value)
+                        state = value ? 'open' : 'close'
+                    })
                     state: "close"
                     states: [
                         State {
@@ -297,7 +313,6 @@ Window {
 
                     onClicked: () => {
                                    ui.open_close()
-                                   state = state === "open"? "close": "open"
                                }
                 }
 
@@ -330,7 +345,7 @@ Window {
                     RadioButton {
                         id: nucleicAcidAmplification
                         width: 240
-                        text: qsTr("Nucleic Acid Amplification")
+                        text: qsTr("Nucleic Acid Quantification")
                         font.pointSize: 12
                         spacing: 10
                         topPadding: 17
@@ -341,7 +356,7 @@ Window {
                     RadioButton {
                         id: antibioticsQuantification
                         width: 240
-                        text: qsTr("Antibiotics Quantification")
+                        text: qsTr("AST")
                         spacing: 10
                         padding: 6
                         topPadding: 17
@@ -358,7 +373,7 @@ Window {
                 }
 
                 Button {
-                    id: button
+                    id: runButton
                     x: 23
                     y: 414
                     width: 120
