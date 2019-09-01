@@ -47,7 +47,7 @@ Item {
                 anchors.fill: parent
                 onClicked: (e) => {
                     var labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-                    root.state = (root.state == "notSelected" ? "selected" : "notSelected")
+                    root.state = (root.state === "notSelected" ? "selected" : "notSelected")
                     var name = labels[Math.floor(identifier/12)] + ((identifier % 12)+1)
                     root.clicked(name)
                 }

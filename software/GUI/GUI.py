@@ -1,6 +1,6 @@
 import sys
 
-from PySide2.QtCore import QObject, QUrl, Slot, Signal
+from PySide2.QtCore import QObject, QUrl, Signal, Slot
 from PySide2.QtGui import QGuiApplication
 from PySide2.QtQml import QQmlApplicationEngine
 
