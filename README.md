@@ -1,6 +1,6 @@
 # Plate reader
 
-![Plate Reader Image](documentation/building/Plate%20Reader.jpg)
+![Plate Reader Image](documentation/building/plate%20reader.24.jpg)
 
 ## Background
 
