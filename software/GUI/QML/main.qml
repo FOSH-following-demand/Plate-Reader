@@ -7,6 +7,13 @@ import QtQuick.Dialogs 1.3
 
 
 Window {
+
+    readonly property double x_spacing: 9.0
+    readonly property double y_spacing: 9.0
+    readonly property point a0_position: Qt.point(0, 0)
+    property var selectedWells: []
+    property string url: "http://localhost:10913/"
+
     id: window
     visible: true
     width: 1366
@@ -53,9 +60,6 @@ Window {
             color: "#ffffff"
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop
             Layout.fillWidth: true
-            Component.onCompleted: ui.running.connect((running_state) => {
-                state = running_state
-            })
             state: "stopped"
             states: [
                 State {
@@ -126,11 +130,8 @@ Window {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.rightMargin: 20
                     onClicked: () => {
-                                   ui.play()
-                                   if (header.state !== "running") {
-                                       header.state = "running"
-                                   }
-                               }
+                        
+                    }
                 }
 
                 ToolButton {
@@ -143,11 +144,8 @@ Window {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.rightMargin: 20
                     onClicked: () => {
-                                   ui.pause()
-                                   if (header.state !== "paused") {
-                                       header.state = "paused"
-                                   }
-                               }
+                        
+                    }
                 }
 
                 ToolButton {
@@ -160,11 +158,8 @@ Window {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.rightMargin: 20
                     onClicked: () => {
-                                   ui.stop()
-                                   if (header.state !== "stopped") {
-                                       header.state = "stopped"
-                                   }
-                               }
+                        
+                    }
                 }
             }
         }
@@ -279,14 +274,13 @@ Window {
 
                 Button {
                     id: openCloseButton
-                    x: 23
+                    x: 2
                     y: 64
                     width: 120
                     height: 32
                     font.pointSize: 14
                     font.family: "Segoe UI"
                     Component.onCompleted: ui.open.connect((value) => {
-                        console.log(value)
                         state = value ? 'open' : 'close'
                     })
                     state: "close"
@@ -312,8 +306,18 @@ Window {
                     }
 
                     onClicked: () => {
-                                   ui.open_close()
-                               }
+                        if (state === "open") {
+                            request(`${url}?cmd=G1%20X8%20Y10`, (response) => {
+                                console.log(response.responseText)
+                                state = "close"
+                            })
+                        } else if  (state = "close") {
+                            request(`${url}?cmd=G1%20X8%20Y10`, (response) => {
+                                console.log(response.responseText)
+                                state = "open"
+                            })
+                        }
+                    }
                 }
 
                 Text {
@@ -382,7 +386,21 @@ Window {
                     font.pointSize: 14
                     font.family: "Segoe UI"
 
-                    onClicked: ui.run()
+                    onClicked: {
+                        header.state = "running"
+                        // Loop through all selected wells
+                        selectedWells.forEach(well => {
+                            var well_position = calculate_well_position(well)
+                            move_to_point(well_position)
+                            // TODO: Scan well and print result to screen
+                            var well_index = calculate_well_index(well);
+                            console.log(well_index)
+                            scan_position((response) => {
+                                wells.itemAt(well_index).value = response.responseText.substr(2)
+                            });
+                        });
+                        header.state = "stopped"
+                    }
                 }
             }
 
@@ -473,23 +491,67 @@ Window {
                                 Layout.fillWidth: true
                                 value: "0.0"
                                 onClicked: (e) => {
-                                    ui.well_selected(e)
+                                    calculate_well_position(e)
+                                    var index = selectedWells.indexOf(e)
+                                    if (index > 0) selectedWells.splice(index, 1)
+                                    else selectedWells.push(e)
+
+                                    selectedWells.sort()
                                 }
                             }
                             Component.onCompleted: ui.result.connect(
-                                    (result) => {
-                                        var identifier = result.identifier
-                                        var num = parseInt(identifier.slice(1, identifier.length))
-                                        var letter = identifier.slice(0,1).charCodeAt(0) - 'A'.charCodeAt(0)
-                                        var idx = (12 * letter) + num - 1
-                                        wells.itemAt(idx).value = result.result.toString()
-                                    }
-                                )
+                                (result) => {
+                                    var identifier = result.identifier
+                                    var num = parseInt(identifier.slice(1, identifier.length))
+                                    var letter = identifier.slice(0,1).charCodeAt(0) - 'A'.charCodeAt(0)
+                                    var idx = (12 * letter) + num - 1
+                                    wells.itemAt(idx).value = result.result.toString()
+                                }
+                            )
                         }
                     }
                 }
             }
-
         }
+    }
+
+    function request(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = (
+            function(myxhr) {
+            return function() {
+                if (myxhr.readyState === 4) callback(myxhr);
+            }
+        })(xhr);
+        xhr.open('GET', url, true);
+        xhr.send('');
+    }
+
+    function calculate_well_position(well) {
+        const well_char = well[0]
+        const well_num = parseInt(well.substr(1))
+
+        const x = a0_position.x + (well_char.charCodeAt(0) - 'A'.charCodeAt(0)) * x_spacing
+        const y = a0_position.y + (well_num - 1) * y_spacing
+
+        return Qt.point(x, y)
+    }
+
+    function move_to_point(point) {
+        request(`${url}?cmd=G1%20X${point.x}%20Y${point.y}`, (response) => {
+            console.log(response.responseText)
+        })
+    }
+
+    // TODO
+    function scan_position(callback) {
+        request(`${url}?cmd=G95`, callback)
+    }
+
+    function calculate_well_index(well) {
+        const well_char = well[0]
+        const well_num = parseInt(well.substr(1));
+
+        return (well_char.charCodeAt(0) - 'A'.charCodeAt(0)) * 12 + well_num - 1
     }
 }
